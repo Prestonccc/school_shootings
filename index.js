@@ -1,3 +1,4 @@
+// ======================= Mapbox import parameter settings =======================
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJlc3RvbmNoIiwiYSI6ImNrdDVuZnpiajBhN3EydnFybGdncDJwd3MifQ.4I6O-RFbLipZMF81CAb6Qg'; 
 
 let map = new mapboxgl.Map({
@@ -7,6 +8,7 @@ let map = new mapboxgl.Map({
     zoom: 3
   });
 
+  // ======================= Population range and color labels =======================
   let population_layers = [
     {
         "label": "0 - 1",
@@ -42,6 +44,7 @@ let map = new mapboxgl.Map({
     }
 ];
 
+  // ======================= ulcode range and color labels =======================
 let ulcode_layers = [
     {
         "label": "11 - 13",
@@ -61,30 +64,30 @@ let ulcode_layers = [
     }
 ];
 
+// ======================= Map starts loading =======================
 map.on('load', () => {
-// the rest of the code will go in here
+    // Change the cusor style to default
     map.getCanvas().style.cursor = 'default';
-    // create legend
+    // Create legend
     const population_legend = document.getElementById('population_legend');
     const ulcode_legend = document.getElementById('ulcode_legend');
-
+    // Add a new population layer on the map, behind the schoolshooting layer
     for (let layer of population_layers) {
         map.addLayer({
             "id": layer.label,
             "type": "fill",
             "source": {
             "type": "vector",
-            // "url": "mapbox://prestonch.3yevuaq6"
             "url": "mapbox://prestonch.2iy89672"
             }, 
-            // "source-layer": "stateData-dxjz87",
             "source-layer": "stateData-3w978u",
             "paint": {
             "fill-color": layer.color
             },
             "filter":["==", "range", layer.label]
         }, 'schoolshootings');
-
+        
+        // ======================= Set Population legend =======================
         const color = layer.color;
         const item = document.createElement('div');
         const key = document.createElement('span');
@@ -97,6 +100,7 @@ map.on('load', () => {
         item.appendChild(value);
         population_legend.appendChild(item);
         
+        // ======================= Set action when click on the range buttons, filter the state with the consitions =======================
         let link = document.createElement('a');
         link.href = '#';
         link.classList.add('active');
@@ -126,6 +130,7 @@ map.on('load', () => {
                 
     };
 
+    // ======================= Set Urban-centric locale code legend =======================
     for (let layer of ulcode_layers) {
         const color = layer.color;
         const item = document.createElement('div');
@@ -139,12 +144,14 @@ map.on('load', () => {
         item.appendChild(value);
         ulcode_legend.appendChild(item);
     };
-    //===============================================
+
+    // ======================= Map mouse move action  =======================
     map.on('mousemove', e => {
         let caseinfo = map.queryRenderedFeatures(e.point, {
           layers: ['schoolshootings']
         });
-        console.log(caseinfo);
+        
+        //  ======================= Show Information on the white Board =======================
         if (caseinfo.length > 0) {
           document.querySelector('#info').innerHTML = 
             '<p><b>Year of Shooting:</b> ' + caseinfo[0].properties.year + 
@@ -167,10 +174,11 @@ map.on('load', () => {
         map.getCanvas().style.cursor = 'default';
       });
 
+      // ======================= Map mouse click action  =======================
       map.on('click', 'schoolshootings', e => {
-        console.log(e.features[0].properties);
+
+        // ======================= Set Pop up Information  =======================
         new mapboxgl.Popup()
-      // the code in step 3 below must go in here 
           .setLngLat(e.lngLat)
           .setHTML("<span class='popup-address'>" + e.features[0].properties.district_name + ", "+ e.features[0].properties.city + ", "+ e.features[0].properties.county + ", "+ e.features[0].properties.state + "</span><br>" +
             "Injured: " + e.features[0].properties.injured + "<br>"+
@@ -181,6 +189,7 @@ map.on('load', () => {
           .addTo(map);
         });
         
+        // ======================= Set Button: Back to intitial index  =======================
         let action = document.createElement('a');
         action.innerHTML = "<img src='usa.png' style=width:60px;>"
         action.href = 'javascript:void(0)';
@@ -191,8 +200,8 @@ map.on('load', () => {
           map.flyTo({center: [-98.467472, 39.690240], zoom: 3})
         }
 });
-// ================================ Chart js Starts here ================================
-// ================================ Original data ================================
+// ======================= Chart js Starts here =======================
+// ======================= Original School shootins data =======================
 let table = 
 [
   {
@@ -10430,7 +10439,7 @@ let table =
     "ulocale": 11
   }
 ]
-//================================= Data Process to get School year and cases number =====================================
+// ======================= Data Process to get School year and cases number =======================
 let school_year_list = [];
 let school_year_case = [];
 
@@ -10448,7 +10457,8 @@ for (let year of school_year_list) { //1998-1999
   }
   school_year_case.push(count);
 }
-// console.log(school_year_case);
+
+// ======================= Create a Object to store school year and number of cases =======================
 let school_year_obj = [];
 let size = school_year_list.length;
 for(let i = 0 ; i < size; i++){
@@ -10458,13 +10468,14 @@ for(let i = 0 ; i < size; i++){
   school_year_obj.push(temp);
 }
 
-//================================= Starts to create the first Chart =====================================
+// ======================= Setting of the First Chart =======================
 const ctx = document.getElementById('myChart');
 
 var cases = ctx.getContext('2d').createLinearGradient(0, 0, 0, 200);
 cases.addColorStop(0, 'rgba(252, 78, 42, 0.6)');
 cases.addColorStop(1, 'rgba(189, 0, 38, 0.6)');
 
+//  Reset button function to reset the chart
 function reset_chart1(list){
   myChart.destroy();
   myChart = new Chart(ctx, {
@@ -10509,7 +10520,7 @@ function reset_chart1(list){
         }
       },
       maintainAspectRatio: false,
-      animation: false,
+      // animation: false,
        plugins: {
         legend: {
           display: true
@@ -10528,7 +10539,11 @@ function reset_chart1(list){
     }
   });
 }
+
+// Change Chart default color to white
 Chart.defaults.color = '#fff';
+
+// ======================= Create First Chart - Bar  =======================
 let myChart = new Chart(ctx, {
   type: 'bar',
   data: {
@@ -10570,7 +10585,7 @@ let myChart = new Chart(ctx, {
       }
     },
     maintainAspectRatio: false,
-    animation: false,
+    // animation: false,
      plugins: {
       legend: {
         display: true
@@ -10589,6 +10604,7 @@ let myChart = new Chart(ctx, {
   }
 });
 
+// Create Sort and Reset Button
 let reset_action = document.createElement('a');
 let sort_action = document.createElement('a');
 
@@ -10600,6 +10616,7 @@ reset_action.innerHTML = "Reset"
 reset_action.href = 'javascript:void(0)';
 reset_action.classList.add('active');
 
+// Set button actions
 let resetBtn = document.querySelector('#reset');
 resetBtn.appendChild(reset_action);
 reset_action.onclick = e => {
@@ -10615,7 +10632,8 @@ sort_action.onclick = e => {
   reset_chart1(sorted_list);
 }
 
-//================================= Starts to create the first Chart =====================================
+// ======================= Setting of the Second Chart =======================
+// ======================= Original State Data =======================
 let state_data = [
   {
     "STATE": "Alabama",
@@ -10922,96 +10940,7 @@ let state_data = [
 
 const ctx2 = document.getElementById('myChart2');
 
-let state_list = [];
-
-for (let row of table) {
-  state_list.push(row.state);
-}
-state_list = Array.from(new Set(state_list)); //43 States in dataset
-
-let state_case =[]
-for (let state of state_list) { //1998-1999
-  let count = 0;
-  for (let row of table){
-    if (state == row.state) {
-        count += 1;
-    }
-  }
-  state_case.push(count);
-}
-let state_case_obj = [];
-let state_size = state_case.length;
-for(let i = 0 ; i < state_size; i++){
-  let temp={};
-  temp.name=state_list[i];
-  temp.cases=state_case[i];
-  state_case_obj.push(temp);
-}
-state_case_obj.sort(function(a, b) {
-  var textA = a.name.toUpperCase();
-  var textB = b.name.toUpperCase();
-  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-});
-
-let myChart2 = new Chart(
-  ctx2,
-  {
-    data: {labels: state_case_obj.map(o => o.name),
-    datasets:[
-      {
-        label: 'State Cases',
-        data: state_case_obj.map(o => o.cases),
-        borderColor: 'rgb(254, 217, 118)',
-        backgroundColor: 'rgb(254, 217, 118)',
-        type: 'bar',
-        order: 1,
-        yAxisID: 'barY'
-      },
-      {
-        label: 'Percentage of US Population',
-        data: state_data.map(o => o.Percentage),
-        borderColor: 'rgb(54, 162, 235)',
-        backgroundColor: 'rgb(54, 162, 235)',
-        type: 'line',
-        order: 0,
-        yAxisID: 'lineY'
-      }
-    ]},
-    options: {
-      plugins: {
-        legend: {
-          position: 'top',
-        },
-        title: {
-          display: true,
-          text: 'School Shooting Cases related with US population By State',
-        },
-      },
-      maintainAspectRatio: false,
-      animation: false,
-      scales: {
-        lineY: {
-          type: 'linear',
-          display: true,
-          position: 'left',
-          ticks: {
-            callback: value => value + '%',
-          },
-        },
-        barY: {
-          type: 'linear',
-          display: true,
-          position: 'right',
-          beginAtZero: true,
-          grid: {
-            drawOnChartArea: false, // only want the grid lines for one axis to show up
-          },
-        },
-      }
-    },
-  }
-)
-
+//  Reset button function to reset the chart
 function reset_2(list,list2){
   myChart2.destroy();
   myChart2 = new Chart(
@@ -11045,12 +10974,11 @@ function reset_2(list,list2){
           },
           title: {
             display: true,
+            fontSize: 20,
             text: 'School Shooting Cases related with US population By State',
-            color: '#fff'
-          }
+          },
         },
         maintainAspectRatio: false,
-        animation:false,
         scales: {
           lineY: {
             type: 'linear',
@@ -11065,7 +10993,6 @@ function reset_2(list,list2){
             display: true,
             position: 'right',
             beginAtZero: true,
-            // grid line settings
             grid: {
               drawOnChartArea: false, // only want the grid lines for one axis to show up
             },
@@ -11076,6 +11003,101 @@ function reset_2(list,list2){
   )
 }
 
+// ======================= Data Process =======================
+let state_list = [];
+
+for (let row of table) {
+  state_list.push(row.state);
+}
+state_list = Array.from(new Set(state_list)); //43 States in dataset
+
+let state_case =[]
+for (let state of state_list) { //1998-1999
+  let count = 0;
+  for (let row of table){
+    if (state == row.state) {
+        count += 1;
+    }
+  }
+  state_case.push(count);
+}
+
+// Create state object with state name and cases
+let state_case_obj = [];
+let state_size = state_case.length;
+for(let i = 0 ; i < state_size; i++){
+  let temp={};
+  temp.name=state_list[i];
+  temp.cases=state_case[i];
+  state_case_obj.push(temp);
+}
+state_case_obj.sort(function(a, b) {
+  var textA = a.name.toUpperCase();
+  var textB = b.name.toUpperCase();
+  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+});
+
+// ======================= Create the Second Chart - Bar-line =======================
+let myChart2 = new Chart(
+  ctx2,
+  {
+    data: {labels: state_case_obj.map(o => o.name),
+    datasets:[
+      {
+        label: 'State Cases',
+        data: state_case_obj.map(o => o.cases),
+        borderColor: 'rgb(254, 217, 118)',
+        backgroundColor: 'rgb(254, 217, 118)',
+        type: 'bar',
+        order: 1,
+        yAxisID: 'barY'
+      },
+      {
+        label: 'Percentage of US Population',
+        data: state_data.map(o => o.Percentage),
+        borderColor: 'rgb(54, 162, 235)',
+        backgroundColor: 'rgb(54, 162, 235)',
+        type: 'line',
+        order: 0,
+        yAxisID: 'lineY'
+      }
+    ]},
+    options: {
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          fontSize: 20,
+          text: 'School Shooting Cases related with US population By State',
+        },
+      },
+      maintainAspectRatio: false,
+      scales: {
+        lineY: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          ticks: {
+            callback: value => value + '%',
+          },
+        },
+        barY: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          beginAtZero: true,
+          grid: {
+            drawOnChartArea: false, // only want the grid lines for one axis to show up
+          },
+        },
+      }
+    },
+  }
+)
+
+// Create Sort and Reset Button
 let sort_chart2 = document.createElement('a');
 let reset_chart2 = document.createElement('a');
 
@@ -11087,6 +11109,7 @@ reset_chart2.innerHTML = "Reset"
 reset_chart2.href = 'javascript:void(0)';
 reset_chart2.classList.add('active');
 
+// Set actions of buttons
 let sortBtn2 = document.querySelector('#sort2');
 sortBtn2.appendChild(sort_chart2);
 sort_chart2.onclick = e => {
@@ -11104,7 +11127,6 @@ sort_chart2.onclick = e => {
         }
     }
   }
-  console.log(new_order_list);
   reset_2(percentage_sorted,new_order_list);
 }
 
@@ -11113,8 +11135,10 @@ resetBtn2.appendChild(reset_chart2);
 reset_chart2.onclick = e => {
   reset_2(state_data, state_case_obj);
 }
-//----------------------------------------------------------
 
+// ======================= Setting of the Third Chart =======================
+
+// ======================= Data Process =======================
 let staff_present_list=[];
 let staff_present_count=[];
 let staff_obj =[];
@@ -11134,6 +11158,7 @@ for (let each of staff_present_list) { //1998-1999
   staff_present_count.push(count);
 }
 
+// Create object of staff present with counts
 let staff_list_size = staff_present_list.length;
 for(let i = 0 ; i < staff_list_size; i++){
   let temp={};
@@ -11143,15 +11168,15 @@ for(let i = 0 ; i < staff_list_size; i++){
 }
 for(let each of staff_obj){
   if (each.present==parseInt("1")){
-    each.present = "Present";
-  }else {each.present="Not Present"}
+    each.present = "Presence";
+  }else {each.present="Non-Presence"}
 }
-console.log(staff_obj);
+
+// ======================= Setting of the Third Chart =======================
 let data = {
   labels: staff_obj.map(o => o.present),
   datasets: [
     {
-      label: 'Dataset 1',
       data: staff_obj.map(o => o.count),
       backgroundColor: ['#F5DF4D', '#939597']
     }
@@ -11160,10 +11185,11 @@ let data = {
 const ctx3 = document.getElementById('myChart3');
 
 
-const pie = new Chart(
+// ======================= Create the Third Chart - Doughnut =======================
+let doughnut = new Chart(
   ctx3,
   {
-    type: 'pie',
+    type: 'doughnut',
     data: data,
     options: {
       plugins: {
@@ -11174,16 +11200,27 @@ const pie = new Chart(
           display: true,
           text: 'Presence of School Resource Officer or Security Guard'
         },
-        backgroundColor: "#27ae60"
-      },
-    },
-  }
+      }
+    }}
 )
 
-//---------------------------------------
+let present_info = document.createElement('p');
+for(let each of staff_obj){
+  if(each.present == "Presence"){
+    present_info.innerHTML = "<b>Presence: </b> " +  ((each.count/table.length)*100).toFixed(2) + "%<br>";
+  }
+  else{
+    present_info.innerHTML += "<b>Non-Presence: </b> " +  ((each.count/table.length)*100).toFixed(2) + "%";
+  }
+}
+let present_div = document.querySelector('#present');
+present_div.appendChild(present_info);
+// ======================= Get Shooters Gender and Age information from School shooting dataset
+// ======================= Gender Data Process =======================
 let gender_list=[];
 let gender_count=[];
 let gender_obj=[];
+
 for (let row of table){
   gender_list.push(row.gender_shooter1);
 }
@@ -11214,13 +11251,16 @@ if (index > -1) {
   gender_count.splice(index, 1);
 }
 
+// Create Gender Object with gender and each counts
 for(let i = 0 ; i < gender_list.length; i++){
   let temp={};
   temp.gender=gender_list[i];
   temp.count=gender_count[i];
   gender_obj.push(temp);
 }
-console.log(gender_obj)
+
+// ======================= Age Data Process =======================
+// Create age array with total counts
 let age_para =[]
 let count = 0;
 let total = 0;
@@ -11236,7 +11276,8 @@ for (let row of table){
     total +=row.age_shooter2
   }
 }
-console.log(gender_obj)
+
+// Render age info and gender info to the html whiteboard
 let age_info = document.createElement('p');
 age_info.innerHTML = "<b>Shooter Average Age:</b> " + (total/count).toFixed(2);
 let gender_info = document.createElement('p');
@@ -11245,7 +11286,6 @@ for(let each of gender_obj){
   if(each.gender == "f"){gender_info.innerHTML += "<b>Female:</b> " + each.count + "<br>"}
   if(each.gender == "b"){gender_info.innerHTML += "<b>Bigender:</b> " + each.count + "<br>"}
 }
-
 
 let gender_age = document.querySelector('.gender');
 gender_age.appendChild(age_info);

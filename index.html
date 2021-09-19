@@ -62,8 +62,9 @@
 </div>
 <div class='chartContainer' >
     <div class="chartbox-1">
-        <div><canvas id="myChart"></canvas></div>
-        
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
         <div id="sort"></div>
         <div id="reset"></div>
     </div>
@@ -77,9 +78,17 @@
     <div class="chartbox-3">
         <!-- <canvas id="myChart3"></canvas> -->
         <canvas id="myChart3"></canvas>
+        <div id="present"></div>
     </div>
 </div>
 
+<footer>
+    <p>Copyright &copy; 2021 by <b>Hu Chen</b> for Unimelb GEOM90007 Assignment 2. All rights reserved.</p>
+    <p>Data Sources from <a href="https://github.com/washingtonpost/data-school-shootings">Washington Post (US)</a>, 
+        <a href="https://eric.clst.org/tech/usgeojson/">Eric Celeste</a>, 
+        <a href="https://www.kaggle.com/peretzcohen/2019-census-us-population-data-by-state">Kaggle</a>.</p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="index.js"></script>
