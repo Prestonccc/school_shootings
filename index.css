@@ -4,7 +4,8 @@ body {
     background-image: url("gun.jpg");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover
+    background-size: cover;
+    font-family: 'Montserrat', sans-serif;
   }
   
 h2,
@@ -24,7 +25,7 @@ p {
     margin: 10px;
 }
 /** ICON */
-#smallicons {
+#smallicons,#shootericon {
     width: 20px;
     padding-bottom: 3.75px;
     vertical-align: middle;
@@ -81,6 +82,7 @@ p {
 }
 .box-4{
     display: flex;
+    flex-direction: column;
     flex: 0.4;
     align-self: flex-start;
     margin-left:20px;
@@ -113,14 +115,11 @@ p {
     border-radius: 3px;
 }
 
-#density, #ulcode{
+#population, #ulcode{
     margin: 0;
     text-align: left;
 }
 
-#density {
-    margin-bottom: -2px;
-}
 
 #unit {
     margin: 0;
@@ -129,7 +128,7 @@ p {
     margin-bottom: 5px;
 }
 
-#density_legend {
+#population_legend {
     /* top: 200px; */
     /* left: 20px; */
     padding: 10px;
@@ -149,7 +148,7 @@ p {
     margin-top: 10px;
     width: 100%;
 }
-.density_legend-key,
+.population_legend-key,
 .ulcode_legend-key {
     display: inline-block;
     border-radius: 20%;
@@ -186,7 +185,7 @@ border: none;
 
 #backBtn {
     height:100%;
-    margin-top:13px;
+    margin-top:20px;
     /* left: 200px;  */
 }
 
@@ -207,7 +206,7 @@ border: none;
     /* left:312.75px; */
     /* top: 20px; */
     width:100%;
-    height: 400px;
+    height: 420px;
     border-radius: 5px;
 
 }
@@ -223,6 +222,14 @@ border: none;
     margin-top: 15px;
     text-align: center;
 }
+ .gender{
+    margin-top: 10px;
+    height: 150px;
+    width: 250px;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+ }
 /***************************************** Pop Up *****************************************/
 .mapboxgl-popup {
     max-width: 200px;
@@ -238,7 +245,81 @@ border: none;
     font-weight: bold;
 }
 
-.chartContainer {
-    height: 400px;
-    width: 300px;
+.chartContainer{
+    height:auto;
 }
+
+.chartbox-1{
+    flex:1;
+    background-color: rgb(68, 65, 65);
+    border:2px solid #e67e22;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding:10px;
+    text-align: center;
+    width:0;
+}
+#myChart{
+    height:250px;
+}
+.chartbox-2{
+    flex:1;
+    background-color: rgb(68, 65, 65);
+    border:2px solid #e67e22;
+    color: white;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding:10px;
+    text-align: center;
+    width:0;
+}
+#myChart2{
+    height:100%;
+}
+.chartbox-3{
+    flex:1;
+    background-color: rgb(68, 65, 65);
+    border:2px solid #e67e22;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding:10px;
+}
+
+#reset, #sort,
+#reset2, #sort2 {
+    /* display: inline-block; */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#reset a, 
+#sort a,
+#reset2 a, 
+#sort2 a{
+    text-decoration: none;
+    border: 1px solid #e67e22;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    color: #e67e22;
+    transition: 0.4s;
+}
+
+#reset a:hover, 
+#sort a:hover,
+#reset2 a:hover, 
+#sort2 a:hover{
+    color:#fff;
+    background: #e67e22;
+}
+

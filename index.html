@@ -1,17 +1,19 @@
 <link rel="stylesheet" href="index.css">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 
 <div class="mapbox-container">
     <!-- BOX 1 -->
     <div class="box-1">
-        <div class='map-overlay' id='density_legend'>
-            <p id='density'>
-                <b>Density</b><br>
+        <div class='map-overlay' id='population_legend'>
+            <p id='population'>
+                <b>Population</b><br>
             </p>
             <p id='unit'>
-                No. of Residents Per mi<sup>2</sup>
+                % of Overall US population
             </p>
         </div>
     
@@ -38,7 +40,7 @@
         <div class='map-overlay' id='features'>
             <h2>
                 <img id="smallicons" src="united-states.png">
-                US 1999 - 2019<br>School Shootings related with Population Density
+                US 1999 - 2019<br>School Shootings related with States Population
             </h2>
             <div id='info'>
                 <div>
@@ -49,11 +51,33 @@
                 <p>Move your mouse over a case to view details.</p>
             </div>
         </div>
+        <div class="gender">
+            <p style="margin-top: 15px;">
+                <img id="shootericon" src="shooter.png">
+                Shooters Information
+            </p>
+        </div>
     </div>
 
 </div>
 <div class='chartContainer' >
-    <canvas id="myChart"></canvas>
+    <div class="chartbox-1">
+        <div><canvas id="myChart"></canvas></div>
+        
+        <div id="sort"></div>
+        <div id="reset"></div>
+    </div>
+    <div class="chartbox-2">
+        <div>
+            <canvas id="myChart2"></canvas>
+        </div>
+        <div id='sort2'></div>
+        <div id='reset2'></div>
+    </div>
+    <div class="chartbox-3">
+        <!-- <canvas id="myChart3"></canvas> -->
+        <canvas id="myChart3"></canvas>
+    </div>
 </div>
 
 
